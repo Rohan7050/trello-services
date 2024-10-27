@@ -1,5 +1,4 @@
 export const ENABLE_ENCRYPTION: boolean = true;
-export const PORT = process.env.PORT || 3000;
 export const REDIS_PORT = 6379;
 export const REDIS_KEY_EXPIRY_TIME = 3600 * 24 * 7; // 7 days
 export const PATH = '/api';
@@ -42,8 +41,8 @@ export enum ResponseStatus {
 }
 
 export const SERVER_IPS = {
-  LOCAL: [`http://localhost:${PORT}`, `localhost:${PORT}`],
-  DEV: [`http://localhost:${PORT}`, `localhost:${PORT}`],
+  LOCAL: [],
+  DEV: [],
   SIT: [],
   UAT: [],
   PROD: [],

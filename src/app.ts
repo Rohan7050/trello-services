@@ -4,17 +4,14 @@ import express, { NextFunction, Request, Response } from 'express';
 import useragent from 'express-useragent';
 import helmet from 'helmet';
 import moment from 'moment';
-import multer from 'multer';
-
 import { ENABLE_ENCRYPTION, NON_ENCRYPTION_ENDPOINTS, PATH, projectURL, SERVER_IPS, StatusCode } from './config';
 import { ApiError, BadRequestError, CorsError, InternalError, MethodNotFoundError, NotFoundError } from './core/ApiError';
 import { EncryptionAndDecryption } from './core/Encryption&Decryption';
 import Database from './database/database';
-import { DB_ENVIRONMENT } from './database/database.config';
 import Controller from './interfaces/controller.interface';
 import { CacheMiddleware } from './middlewares/cache.middleware';
-import { EmailService } from './utils/email/email.util';
-import { errorTemplate } from './utils/email/templates/error.template';
+// import { EmailService } from './utils/email/email.util';
+import { errorTemplate } from './utils/email/templates/error.template'
 
 class App {
   public app: express.Application;
@@ -22,14 +19,15 @@ class App {
   private pathList: any[] = [];
   private cacheMiddleware = new CacheMiddleware();
   private database = new Database();
-  private CORS_ALLOWED_ENDPOINTS = [...SERVER_IPS.LOCAL, ...SERVER_IPS.DEV, ...SERVER_IPS.UAT, ...SERVER_IPS.PROD];
+  private CORS_ALLOWED_ENDPOINTS: string[] = [...SERVER_IPS.LOCAL, ...SERVER_IPS.DEV, ...SERVER_IPS.UAT, ...SERVER_IPS.PROD];
 
   constructor(controllers: Controller[], port: any) {
     this.app = express();
     this.port = port;
-
+    this.CORS_ALLOWED_ENDPOINTS.push(`http://localhost:${this.port}`);
+    this.CORS_ALLOWED_ENDPOINTS.push(`localhost:${this.port}`)
     // this.initializeRedis();
-    // this.initializeDatabase();
+    this.initializeDatabase();
     this.initializeMiddlewares();
     this.initializeControllers(controllers);
     // this.initializeScheulders();
@@ -123,7 +121,7 @@ class App {
       if (err instanceof ApiError) {
         return ApiError.handle(err, res);
       } else {
-        if (DB_ENVIRONMENT !== 'PROD') {
+        if (process.env.NODE_ENV !== 'production') {
           return res.status(500).send(err.message);
         }
         return ApiError.handle(new InternalError(), res);
@@ -149,7 +147,7 @@ class App {
           html: errorTemplate(emailDetails),
         };
 
-        EmailService.sendEmail(emailObj);
+        // EmailService.sendEmail(emailObj);
       }
     });
   }
