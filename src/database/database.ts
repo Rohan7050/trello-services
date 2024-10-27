@@ -1,8 +1,4 @@
-import sql from 'mssql';
-import { DataSource } from 'typeorm';
-import StoredProcedureParameters from '../interfaces/storedProcedureParamter.interface';
 import { pgConnection } from './data-source';
-import { User } from '../entities/userEntity';
 
 const { Client } = require('pg');
 export class Database {

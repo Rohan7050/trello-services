@@ -18,7 +18,7 @@ export class EncryptionAndDecryption {
     }
   }
 
-  public static saltEncryption(data: any) {
+  public static saltEncryption(data: any): Promise<string> {
     return new Promise((resolve, reject) => {
       bcrypt
         .hash(data, SALT_ROUNDS)

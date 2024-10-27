@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { User } from '../entities/userEntity';
+import { UserEntity } from '../entities/userEntity';
 import {config} from 'dotenv';
 import path from 'path';
 const parentDir = path.resolve(__dirname, '../..');
@@ -17,7 +17,7 @@ export const pgConnection = new DataSource({
   password: process.env.DB_HOST_PASSWORD,
   database: process.env.DB_NAME,
   entities: [
-    User
+    UserEntity
   ],
   synchronize: true,
   logging: false,

@@ -1,14 +1,15 @@
-import { Entity, Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn, BaseEntity, ManyToOne, JoinColumn } from 'typeorm';
-import {CommonEntity} from './commonEntity'
+import { Entity, Column, BeforeInsert, BeforeUpdate } from 'typeorm';
+import { CommonEntity } from './commonEntity';
+import { EncryptionAndDecryption } from '../core/Encryption&Decryption';
 
 @Entity('users')
-export class User extends CommonEntity {
+export class UserEntity extends CommonEntity {
   @Column({
     type: 'text',
     nullable: false,
     unique: true,
   })
-  email: string;
+  useremail: string;
 
   @Column({
     type: 'text',
@@ -29,4 +30,10 @@ export class User extends CommonEntity {
     default: 1,
   })
   status: number;
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async encryptPassword() {
+    this.password = await EncryptionAndDecryption.saltEncryption(this.password);
+  }
 }
