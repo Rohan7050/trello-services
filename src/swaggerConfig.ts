@@ -13,7 +13,7 @@ const options: swaggerJsdoc.Options = {
       servers: [{ url: "http://localhost:4201/" }],
     },
   },
-  apis: ['./src/controller/dummy/dummy.docs.ts', './src/controller/user/user.docs.ts', './src/controller/project/project.docs.ts'],
+  apis: ['./src/controller/dummy/dummy.docs.ts', './src/controller/user/user.docs.ts', './src/controller/project/project.yaml', './src/swagger/*.yaml'],
 };
 
 console.log(parentDir);

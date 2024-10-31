@@ -1,18 +1,6 @@
-import { IsNotEmpty, IsNumber, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 
 export class ProjectCreateDto {
-  @IsNumber()
-  @IsNotEmpty()
-  userid!: string;
-
-  @IsNumber()
-  @IsNotEmpty()
-  projectid!: string;
-
-  @IsNumber()
-  @IsNotEmpty()
-  accesstype!: string;
-
   @IsString()
   @MaxLength(100)
   @IsNotEmpty()

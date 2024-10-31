@@ -8,7 +8,7 @@ export class TableEntity extends CommonEntity {
   @Column({
     type: 'integer'
   })
-  project_id: number;
+  projectid: number;
 
   @Column({ 
     type: 'varchar', 
@@ -16,9 +16,9 @@ export class TableEntity extends CommonEntity {
   })
   name: string;
 
-  @ManyToOne(() => ProjectEntity, (project) => project.id)
+  @ManyToOne(() => ProjectEntity, (project) => project.tables)
   project: ProjectEntity;
 
-  @OneToMany(() => CardEntity, (card) => card.id)
-  cards: CardEntity[];
+  @OneToMany(() => CardEntity, (card) => card.table)
+  cards?: CardEntity[];
 }

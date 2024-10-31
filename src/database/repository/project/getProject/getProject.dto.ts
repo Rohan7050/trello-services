@@ -3,5 +3,5 @@ import { IsNotEmpty, IsNumber, IsString, MaxLength, MinLength } from 'class-vali
 export class ProjectGetAllDto {
   @IsNumber()
   @IsNotEmpty()
-  projectid!: string;
+  projectId!: string;
 }

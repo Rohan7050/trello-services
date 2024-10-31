@@ -21,7 +21,8 @@ export class UserDB {
 
   public async findUser(creds: LoginModelType): Promise<UserEntity | null> {
     try {
-      const user = await this.userRepository.findOne({ where: { username: creds.username } });
+      const user = await this.userRepository.findOne({ where: { username: creds.username }, select: {id: true, username: true, useremail: true, password: true} });
+      console.log('user found', user);
       return user;
     } catch (err) {
       throw err;

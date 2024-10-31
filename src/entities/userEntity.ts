@@ -22,6 +22,7 @@ export class UserEntity extends CommonEntity {
     type: 'text',
     nullable: false,
     unique: true,
+    select: false
   })
   password: string;
 

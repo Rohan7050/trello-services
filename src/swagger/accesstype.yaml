@@ -1,0 +1,19 @@
+components:
+  schemas:
+    AccessType:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+          example: "2024-10-31T08:05:05.481Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2024-10-31T08:05:05.481Z"
+        type:
+          type: string
+          example: "owner"

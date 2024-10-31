@@ -1,7 +1,7 @@
 import { AccessTypeEntity } from '../../../entities/accessTypeEntity';
 import { ProjectEntity } from '../../../entities/projectEntity';
 import { UserEntity } from '../../../entities/userEntity';
-import { userProjectRelEntity } from '../../../entities/userProjectRelEntity';
+import { UserProjectRelEntity } from '../../../entities/userProjectRelEntity';
 import { pgConnection } from '../../data-source';
 import { ProjectCreateType } from './create/create.model';
 import { ProjectGetAllType } from './getProject/getProject.model';
@@ -9,17 +9,17 @@ import { ProjectUpdateType } from './update/update.model';
 
 export class ProjectDB {
   private projectRepository = pgConnection.getRepository(ProjectEntity);
-  private userProjectRelRepository = pgConnection.getRepository(userProjectRelEntity);
+  private userProjectRelRepository = pgConnection.getRepository(UserProjectRelEntity);
   private accessTypeRepository = pgConnection.getRepository(AccessTypeEntity);
 
-  public async getProject(projectId: number, userId: number): Promise<userProjectRelEntity | null> {
+  public async getProject(projectId: number, userId: number): Promise<UserProjectRelEntity | null> {
     try {
       const project = await this.userProjectRelRepository.findOne({
         where: {
           projectid: projectId,
           userid: userId,
         },
-        relations: ['project', 'user', 'accessType'],
+        relations: ['project', 'user', 'access', 'project.tables', 'project.tables.cards'],
       });
       return project;
     } catch (err) {
@@ -27,7 +27,21 @@ export class ProjectDB {
     }
   }
 
-  public async getAllProject(userId: number, status: number): Promise<userProjectRelEntity[]> {
+  public async getProjectOnly(projectId: number) {
+    try {
+      const project = await this.projectRepository.findOne({
+        where: {
+          id: projectId,
+          status: 1
+        }
+      });
+      return project;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  public async getAllProject(userId: number, status: number): Promise<UserProjectRelEntity[]> {
     try {
       const project = await this.userProjectRelRepository.find({
         where: {
@@ -44,21 +58,12 @@ export class ProjectDB {
     }
   }
 
-  public async createProject(projectInfo: ProjectCreateType, user: UserEntity): Promise<ProjectEntity | null> {
+  public async createProject(projectInfo: ProjectCreateType): Promise<ProjectEntity | null> {
     try {
       const project = new ProjectEntity();
       project.project_name = projectInfo.project_name;
       project.desc = projectInfo.desc;
       await this.projectRepository.save(project);
-      const access: AccessTypeEntity | null = await this.accessTypeRepository.findOneBy({ id: 1 });
-      const userProjectRel = new userProjectRelEntity();
-      userProjectRel.userid = projectInfo.userid;
-      userProjectRel.projectid = projectInfo.projectid;
-      userProjectRel.accesstype = 1;
-      userProjectRel.user = user;
-      userProjectRel.project = project;
-      userProjectRel.accessType = access;
-      await this.userProjectRelRepository.save(userProjectRel);
       return project;
     } catch (err) {
       throw err;

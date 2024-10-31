@@ -4,7 +4,7 @@ import { ProjectEntity } from './projectEntity';
 import { AccessTypeEntity } from './accessTypeEntity';
 
 @Entity('user_project_rel')
-export class userProjectRelEntity {
+export class UserProjectRelEntity {
   @PrimaryColumn({
     type: 'integer',
   })
@@ -27,5 +27,5 @@ export class userProjectRelEntity {
   project: ProjectEntity;
 
   @ManyToOne(() => AccessTypeEntity, (accessType) => accessType.id)
-  accessType: AccessTypeEntity | null;
+  access: AccessTypeEntity | null;
 }

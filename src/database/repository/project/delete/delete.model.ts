@@ -1,7 +1,7 @@
 export const projectDeleteModel = {
-  projectid: 1,
+  projectId: 1,
 };
 
 export type ProjectDeleteType = {
-  projectid: number;
+  projectId: number;
 };

@@ -1,0 +1,79 @@
+paths:
+  /project/create:
+    get:
+      summary: Retrieve user project access details
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+
+  # /project/getProject:
+  #   get:
+  #     summary: Retrieve user project access details
+  #     responses:
+  #       '200':
+  #         description: Success
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/GetProjectResponse'
+
+components:
+  schemas:
+    Response:
+      type: object
+      properties:
+        statusCode:
+          type: string
+          example: "10000"
+        message:
+          type: string
+          example: "success"
+        data:
+          type: object
+          properties:
+            userid:
+              type: integer
+              example: 1
+            projectid:
+              type: integer
+              example: 7
+            accesstype:
+              type: integer
+              example: 1
+            user:
+              $ref: '../../swagger/user.yaml#/components/schemas/User'
+            project:
+              $ref: '../../swagger/project.yaml#/components/schemas/Project'
+            accessType:
+              $ref: '../../swagger/accesstype.yaml#/components/schemas/AccessType'
+    # GetProjectResponse:
+    #   type: object
+    #   properties:
+    #     statusCode:
+    #       type: string
+    #       example: "10000"
+    #     message:
+    #       type: string
+    #       example: "success"
+    #     data:
+    #       type: object
+    #       properties:
+    #         userid:
+    #           type: integer
+    #           example: 1
+    #         projectid:
+    #           type: integer
+    #           example: 7
+    #         accesstype:
+    #           type: integer
+    #           example: 1
+    #         user:
+    #           $ref: '../../swagger/user.yaml#/components/schemas/User'
+    #         project:
+    #           $ref: '../../swagger/project.yaml#/components/schemas/Project'
+    #         accessType:
+    #           $ref: '../../swagger/accesstype.yaml#/components/schemas/AccessType'

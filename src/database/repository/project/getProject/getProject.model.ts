@@ -1,7 +1,7 @@
 export const projectGetAllModel = {
-  projectid: 1,
+  projectId: 1,
 };
 
 export type ProjectGetAllType = {
-  projectid: number;
+  projectId: number;
 };

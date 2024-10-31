@@ -6,7 +6,7 @@ import { AccessTypeEntity } from '../entities/accessTypeEntity';
 import { CardEntity } from '../entities/cardEntity';
 import { ProjectEntity } from '../entities/projectEntity';
 import { TableEntity } from '../entities/tableEntity';
-import { userProjectRelEntity } from '../entities/userProjectRelEntity';
+import { UserProjectRelEntity } from '../entities/userProjectRelEntity';
 const parentDir = path.resolve(__dirname, '../..');
 
 const env = process.env.NODE_ENV || 'development';
@@ -25,7 +25,7 @@ export const pgConnection = new DataSource({
     UserEntity,
     ProjectEntity,
     AccessTypeEntity,
-    userProjectRelEntity,
+    UserProjectRelEntity,
     TableEntity,
     CardEntity
   ],

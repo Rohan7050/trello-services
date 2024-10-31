@@ -11,6 +11,7 @@
  *   get:
  *     summary: to check services are available
  *     tags: [Dummy]
+ *     description: To check post request
  *     responses:
  *       200:
  *         description: A list of users
