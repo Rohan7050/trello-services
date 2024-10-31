@@ -44,7 +44,7 @@ export class UserController extends BaseController implements Controller {
     if (!user) {
       return ApiError.handle(new BadRequestError('user does not exist'), res);
     }
-    const isValidPassword = await EncryptionAndDecryption.saltCompare(password, user.password)
+    const isValidPassword = await EncryptionAndDecryption.saltCompare(password, user.password);
     if (!isValidPassword) {
       return ApiError.handle(new BadRequestError('incorrect password'), res);
     }

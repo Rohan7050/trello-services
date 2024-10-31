@@ -4,10 +4,11 @@
   "description": "Nodejs project template for common directory structure and basic libraries & required files",
   "scripts": {
     "start": "nodemon",
-    "start:dev": "cross-env NODE_ENV=development ts-node src/server.ts",
-    "copy": "cp package.json build/",
-    "build": "rimraf ./build && tsc && npm run copy",
-    "start:prod": "npm run build && NODE_ENV=production node build/server.js",
+    "start:dev": "cross-env NODE_ENV=development nodemon src/server.ts",
+    "copy": "cp package.json dist/",
+    "build": "rimraf ./dist && tsc && npm run copy",
+    "build:dev": "rimraf ./dist && tsc && npm run copy && cp .env.development dist/",
+    "start:prod": "npm run build && NODE_ENV=production node dist/server.js",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'tests/**/*.ts' --timeout 10000"
   },
   "keywords": [],
@@ -39,6 +40,8 @@
     "pg": "^8.7.3",
     "puppeteer": "^20.3.0",
     "save": "^2.9.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "ts-node-dev": "^1.1.8",
     "typeorm": "^0.3.12",
     "uuid": "^9.0.1"
@@ -61,6 +64,8 @@
     "@types/nodemailer": "^6.4.4",
     "@types/pg": "^8.6.5",
     "@types/redis": "^4.0.11",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.7",
     "@types/uuid": "^9.0.8",
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",

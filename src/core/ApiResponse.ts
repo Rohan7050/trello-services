@@ -2,7 +2,7 @@ import { Response } from 'express';
 import { ENABLE_ENCRYPTION, ResponseStatus, StatusCode } from '../config';
 import { CacheMiddleware } from '../middlewares/cache.middleware';
 import { EncryptionAndDecryption } from './Encryption&Decryption';
-import { Logger } from './Logger';
+// import { Logger } from './Logger';
 
 abstract class ApiResponse {
   constructor(protected statusCode: StatusCode, protected status: ResponseStatus, protected message: string) {}

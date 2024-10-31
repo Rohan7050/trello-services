@@ -12,6 +12,8 @@ import Controller from './interfaces/controller.interface';
 import { CacheMiddleware } from './middlewares/cache.middleware';
 // import { EmailService } from './utils/email/email.util';
 import { errorTemplate } from './utils/email/templates/error.template'
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './swaggerConfig';
 
 class App {
   public app: express.Application;
@@ -53,6 +55,8 @@ class App {
 
     this.app.use(express.json({ limit: '50mb' }));
     this.app.use(express.urlencoded({ extended: true }));
+
+    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));
 
     this.app.use((req: Request, _: Response, next: NextFunction) => {
       req.headers.origin = req.headers.origin || req.headers.host;
@@ -155,6 +159,7 @@ class App {
   public listen() {
     this.app.listen(this.port, () => {
       console.log(`App listening on the port ${this.port}`);
+      console.log(`Swagger docs available at http://localhost:${this.port}/api-docs`);
     });
   }
 }
