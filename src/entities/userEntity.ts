@@ -9,14 +9,14 @@ export class UserEntity extends CommonEntity {
     nullable: false,
     unique: true,
   })
-  useremail: string;
+  username: string;
 
   @Column({
     type: 'text',
     nullable: false,
     unique: true,
   })
-  username: string;
+  useremail: string;
 
   @Column({
     type: 'text',
@@ -28,6 +28,7 @@ export class UserEntity extends CommonEntity {
   @Column({
     type: 'integer',
     default: 1,
+    enum: ['1', '0']
   })
   status: number;
 
