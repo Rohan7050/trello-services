@@ -4,14 +4,20 @@ import { ProjectEntity } from './projectEntity';
 import { AccessTypeEntity } from './accessTypeEntity';
 
 @Entity('user_project_rel')
-export class UserProjectRel {
-  @PrimaryColumn()
+export class userProjectRelEntity {
+  @PrimaryColumn({
+    type: 'integer',
+  })
   userid: number;
 
-  @PrimaryColumn()
+  @PrimaryColumn({
+    type: 'integer',
+  })
   projectid: number;
 
-  @Column()
+  @Column({
+    type: 'integer'
+  })
   accesstype: number;
 
   @ManyToOne(() => UserEntity, (user) => user.id)
@@ -21,5 +27,5 @@ export class UserProjectRel {
   project: ProjectEntity;
 
   @ManyToOne(() => AccessTypeEntity, (accessType) => accessType.id)
-  accessType: AccessTypeEntity;
+  accessType: AccessTypeEntity | null;
 }

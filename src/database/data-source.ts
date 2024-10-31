@@ -2,6 +2,11 @@ import { DataSource } from 'typeorm';
 import { UserEntity } from '../entities/userEntity';
 import {config} from 'dotenv';
 import path from 'path';
+import { AccessTypeEntity } from '../entities/accessTypeEntity';
+import { CardEntity } from '../entities/cardEntity';
+import { ProjectEntity } from '../entities/projectEntity';
+import { TableEntity } from '../entities/tableEntity';
+import { userProjectRelEntity } from '../entities/userProjectRelEntity';
 const parentDir = path.resolve(__dirname, '../..');
 
 const env = process.env.NODE_ENV || 'development';
@@ -17,7 +22,12 @@ export const pgConnection = new DataSource({
   password: process.env.DB_HOST_PASSWORD,
   database: process.env.DB_NAME,
   entities: [
-    UserEntity
+    UserEntity,
+    ProjectEntity,
+    AccessTypeEntity,
+    userProjectRelEntity,
+    TableEntity,
+    CardEntity
   ],
   synchronize: true,
   logging: false,

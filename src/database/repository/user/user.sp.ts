@@ -28,6 +28,15 @@ export class UserDB {
     }
   }
 
+  public async findUserById(userId: number): Promise<UserEntity | null> {
+    try {
+      const user = await this.userRepository.findOneBy({ id: userId });
+      return user;
+    } catch (err) {
+      throw err;
+    }
+  }
+
   public async getUserInfo(user: UserEntity): Promise<UserEntity | null> {
     try {
       //   return apiList;

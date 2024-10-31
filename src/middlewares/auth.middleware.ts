@@ -1,6 +1,6 @@
 import express from 'express';
 import { ApiError, AuthFailureError, BadTokenError} from '../core/ApiError';
-import { verifyjwt } from '../utils/jwt/jwt';
+import { verifyjwt, decodeJwt } from '../utils/jwt/jwt';
 const jwt = require('jsonwebtoken');
 
 const authMiddleware = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -13,6 +13,8 @@ const authMiddleware = async (req: express.Request, res: express.Response, next:
     if(!verifyjwt(token)) {
       return ApiError.handle(new AuthFailureError("Unauthorized"), res);
     }
+    const decryptTocke = decodeJwt(token);
+    res.setHeader('user_id', decryptTocke.id);
     next();
   } catch (err) {
     // console.log(4, err);

@@ -12,6 +12,6 @@ export const verifyjwt = (token: string): any => {
     });
 } 
 
-export const decodeJwt = (token: string) => {
+export const decodeJwt = (token: string): any => {
     return jwt.decode(token, { complete: true, json: true });
 } 

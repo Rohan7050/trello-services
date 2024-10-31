@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { CommonEntity } from './commonEntity';
+import { TableEntity } from './tableEntity';
 
 @Entity('projects')
 export class ProjectEntity extends CommonEntity {
@@ -20,4 +21,7 @@ export class ProjectEntity extends CommonEntity {
     enum: ['1', '0']
   })
   status: number;
+
+  @OneToMany(() => TableEntity, (table) => table.id)
+  tables: TableEntity[];
 }

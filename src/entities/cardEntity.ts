@@ -3,8 +3,10 @@ import { TableEntity } from './tableEntity';
 import { CommonEntity } from './commonEntity';
 
 @Entity('cards')
-export class Card extends CommonEntity {
-  @Column()
+export class CardEntity extends CommonEntity {
+  @Column({
+    type: 'integer',
+  })
   table_id: number;
 
   @Column({
