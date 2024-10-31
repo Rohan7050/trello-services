@@ -4,3 +4,10 @@ export const registerModel = {
   password: '',
   confirmpassword: ''
 };
+
+export type RegisterModelType = {
+  username: string;
+  useremail: string;
+  password: string;
+  confirmpassword: string;
+};

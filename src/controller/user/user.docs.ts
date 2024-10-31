@@ -79,3 +79,18 @@
  *                      token:
  *                        type: string
  */
+
+/**
+ * @swagger
+ * /user/getUserInfo:
+ *   get:
+ *     summary: to get user info ater login
+ *     tags: [Users]
+ *     security:
+ *       - BearerAuth: [YOUR_TOKEN_HERE]
+ *     responses:
+ *       200:
+ *         description: Successfully accessed the protected route
+ *       401:
+ *         description: Unauthorized - Missing or invalid token
+ */
