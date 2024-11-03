@@ -13,17 +13,12 @@ export class Logger extends Database {
   }
 
   private async createLog() {
-    const user_id: any = Number(this.response.getHeader('user_id'));;
-
-    // console.log('hostname', this.request.headers);
-
+    const user_id: any = Number(this.response.getHeader('user_id'));
     let formatted_date = moment(new Date()).format('YYYY-MM-DD kk:mm:ss.SSS');
     let method = this.request.method;
     let url = this.request.url;
     let status = this.statusCode;
-    // console.log(this.request.get('host'));
     let fullUrl = this.request.protocol + '://' + (this.request.get('host') || this.request.headers.origin) + this.request.originalUrl;
-    // console.log(fullUrl);
 
     let activityLogDetails: any = {};
     let errorLogDetails: any = {};
@@ -48,7 +43,6 @@ export class Logger extends Database {
         statusCode: +this.status,
         responseTime: `${duration}ms`,
       };
-      console.log(activityLogDetails);
 
     //   await this._saveSuccessLogsToDB(activityLogDetails, this.response)
     //     .then((suc) => console.log(suc))
