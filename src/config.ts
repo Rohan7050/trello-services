@@ -1,14 +1,21 @@
+import {config} from 'dotenv';
+import path from 'path';
+const parentDir = path.resolve(__dirname, '..');
+
+const env = process.env.NODE_ENV || 'development';
+config({
+  path: `${parentDir}\\.env.${env}`
+});
+
 export const ENABLE_ENCRYPTION: boolean = true;
-export const PORT = process.env.PORT || 3000;
 export const REDIS_PORT = 6379;
 export const REDIS_KEY_EXPIRY_TIME = 3600 * 24 * 7; // 7 days
 export const PATH = '/api';
 export const ENCRYPTION_SECRET_KEY = '';
-export const SALT_ROUNDS = 10;
+export const SALT_ROUNDS = Number(process.env.SALT_ROUNDS);
 export const projectURL = '';
-export const JWT_SECRET_KEY = '';
-export const JWT_EXP = 15 * 60; // 15 min
-export const JWT_REFRESH_EXP = 1 * 60 * 60; // 1 hours
+export const JWT_SECRET_KEY: string = `${process.env.JWT_SECRET_KEY}`;
+export const JWT_EXP: string = `${process.env.EXP_JWT_IN}`;
 export const AWS_ACCESS_KEY_ID = '';
 export const AWS_SECRET_ACCESS_KEY = '';
 export const AWS_REGION = '';
@@ -42,8 +49,8 @@ export enum ResponseStatus {
 }
 
 export const SERVER_IPS = {
-  LOCAL: [`http://localhost:${PORT}`, `localhost:${PORT}`],
-  DEV: [`http://localhost:${PORT}`, `localhost:${PORT}`],
+  LOCAL: [],
+  DEV: [],
   SIT: [],
   UAT: [],
   PROD: [],

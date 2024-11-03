@@ -1,6 +1,9 @@
 {
-    "watch": ["src"],
-    "ext": ".ts,.js",
-    "ignore": [],
-    "exec": "ts-node ./src/server.ts  --trace-deprecation"
+  "watch": ["src"],
+  "ext": ".ts,.js,.yaml",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ignore": [],
+  "exec": "ts-node ./src/server.ts  --trace-deprecation"
 }

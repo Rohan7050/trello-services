@@ -1,0 +1,28 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+          example: "2024-10-27T17:11:30.017Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2024-10-27T17:11:30.017Z"
+        username:
+          type: string
+          example: "RohanPagare"
+        useremail:
+          type: string
+          example: "rohanpagare7599@gmail.com"
+        password:
+          type: string
+          example: "$2a$10$1vtiDv/dIQNGViwH3glL.u9yo962YPH859D1ZztqH/kVMICcSGZ1K"
+        status:
+          type: integer
+          example: 1

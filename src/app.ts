@@ -4,17 +4,16 @@ import express, { NextFunction, Request, Response } from 'express';
 import useragent from 'express-useragent';
 import helmet from 'helmet';
 import moment from 'moment';
-import multer from 'multer';
-
 import { ENABLE_ENCRYPTION, NON_ENCRYPTION_ENDPOINTS, PATH, projectURL, SERVER_IPS, StatusCode } from './config';
 import { ApiError, BadRequestError, CorsError, InternalError, MethodNotFoundError, NotFoundError } from './core/ApiError';
 import { EncryptionAndDecryption } from './core/Encryption&Decryption';
 import Database from './database/database';
-import { DB_ENVIRONMENT } from './database/database.config';
 import Controller from './interfaces/controller.interface';
 import { CacheMiddleware } from './middlewares/cache.middleware';
-import { EmailService } from './utils/email/email.util';
-import { errorTemplate } from './utils/email/templates/error.template';
+// import { EmailService } from './utils/email/email.util';
+import { errorTemplate } from './utils/email/templates/error.template'
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './swaggerConfig';
 
 class App {
   public app: express.Application;
@@ -22,14 +21,15 @@ class App {
   private pathList: any[] = [];
   private cacheMiddleware = new CacheMiddleware();
   private database = new Database();
-  private CORS_ALLOWED_ENDPOINTS = [...SERVER_IPS.LOCAL, ...SERVER_IPS.DEV, ...SERVER_IPS.UAT, ...SERVER_IPS.PROD];
+  private CORS_ALLOWED_ENDPOINTS: string[] = [...SERVER_IPS.LOCAL, ...SERVER_IPS.DEV, ...SERVER_IPS.UAT, ...SERVER_IPS.PROD];
 
   constructor(controllers: Controller[], port: any) {
     this.app = express();
     this.port = port;
-
+    this.CORS_ALLOWED_ENDPOINTS.push(`http://localhost:${this.port}`);
+    this.CORS_ALLOWED_ENDPOINTS.push(`localhost:${this.port}`)
     // this.initializeRedis();
-    // this.initializeDatabase();
+    this.initializeDatabase();
     this.initializeMiddlewares();
     this.initializeControllers(controllers);
     // this.initializeScheulders();
@@ -56,6 +56,8 @@ class App {
     this.app.use(express.json({ limit: '50mb' }));
     this.app.use(express.urlencoded({ extended: true }));
 
+    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));
+
     this.app.use((req: Request, _: Response, next: NextFunction) => {
       req.headers.origin = req.headers.origin || req.headers.host;
       next();
@@ -74,7 +76,6 @@ class App {
 
 
     this.app.use((req, res, next) => {
-      console.log(req.params);
       if (ENABLE_ENCRYPTION === true && !NON_ENCRYPTION_ENDPOINTS.includes(req.url) && !req.headers['content-type']?.includes('multipart/form-data')) {
         if (req.method === 'POST') {
           const result = EncryptionAndDecryption.decryption(req.body.data);
@@ -123,7 +124,7 @@ class App {
       if (err instanceof ApiError) {
         return ApiError.handle(err, res);
       } else {
-        if (DB_ENVIRONMENT !== 'PROD') {
+        if (process.env.NODE_ENV !== 'production') {
           return res.status(500).send(err.message);
         }
         return ApiError.handle(new InternalError(), res);
@@ -149,7 +150,7 @@ class App {
           html: errorTemplate(emailDetails),
         };
 
-        EmailService.sendEmail(emailObj);
+        // EmailService.sendEmail(emailObj);
       }
     });
   }
@@ -157,6 +158,7 @@ class App {
   public listen() {
     this.app.listen(this.port, () => {
       console.log(`App listening on the port ${this.port}`);
+      console.log(`Swagger docs available at http://localhost:${this.port}/api-docs`);
     });
   }
 }

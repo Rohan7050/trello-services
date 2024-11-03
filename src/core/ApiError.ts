@@ -1,5 +1,4 @@
 import { Response } from 'express';
-import { DB_ENVIRONMENT } from '../database/database.config';
 import {
   AuthFailureResponse,
   AccessTokenErrorResponse,
@@ -60,8 +59,7 @@ export abstract class ApiError extends Error {
         return new FailureMsgResponse(err.message).send(res);
       default: {
         let message = err.message;
-        // Do not send failure message in production as it may send sensitive data
-        if (DB_ENVIRONMENT === 'PROD') message = 'Something wrong happened.';
+        if (process.env.NODE_ENV === 'production') message = 'Something wrong happened.';
         const error: any = err;
         if (error.code === '23503') {
           return new FailureMsgResponse('Violation of foreign constraint, ' + error.detail).send(res);

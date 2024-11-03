@@ -1,18 +1,17 @@
-import { JWT_SECRET_KEY, JWT_EXP, JWT_REFRESH_EXP } from "../../config";
+import { JWT_SECRET_KEY, JWT_EXP } from "../../config";
 
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
-export const createjwt = (body: any, expJwtTime: any = "access") => {
-    const exp_time = expJwtTime === "refesh" ? JWT_REFRESH_EXP : JWT_EXP ;
-    return jwt.sign(body, JWT_SECRET_KEY, { expiresIn: exp_time });
+export const createjwt = (body: any): string => {
+    return jwt.sign(body, JWT_SECRET_KEY, { expiresIn: JWT_EXP });
 }
 
-export const verifyjwt = (token: string) => {
+export const verifyjwt = (token: string): any => {
     return jwt.verify(token, JWT_SECRET_KEY, (error: any, decoded: any) => {
         return decoded
     });
 } 
 
-export const decodeJwt = (token: string) => {
-    return jwt.decode(token, JWT_SECRET_KEY);
+export const decodeJwt = (token: string): any => {
+    return jwt.decode(token, { complete: true, json: true });
 } 

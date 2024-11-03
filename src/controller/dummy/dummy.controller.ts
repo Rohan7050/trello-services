@@ -28,7 +28,6 @@ export class DummyController extends BaseController implements Controller {
 
   private _postCall = this.catchAsyn(async (req: express.Request, res: express.Response, _next: express.NextFunction) => {
     req.body = sanitizeBody(postCallModel, req.body);
-
     new SuccessResponse('success', req.body).send(res);
   });
 }

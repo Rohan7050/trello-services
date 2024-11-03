@@ -1,0 +1,25 @@
+components:
+  schemas:
+    Project:
+      type: object
+      properties:
+        project_name:
+          type: string
+          example: "Project four"
+        desc:
+          type: string
+          example: "this is second project"
+        id:
+          type: integer
+          example: 7
+        created_at:
+          type: string
+          format: date-time
+          example: "2024-10-31T13:06:17.795Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2024-10-31T13:06:17.795Z"
+        status:
+          type: integer
+          example: 1

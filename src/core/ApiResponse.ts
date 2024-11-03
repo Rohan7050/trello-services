@@ -9,7 +9,8 @@ abstract class ApiResponse {
 
   protected prepare<T extends ApiResponse>(res: Response, response: T): Response {
     const clientResponse = ApiResponse.sanitize(response, res.req.url);
-    // new Logger(res, res.req, this.statusCode, this.status, clientResponse);
+    new Logger(res, res.req, this.statusCode, this.status, clientResponse);
+    res.removeHeader('user_id');
     CacheMiddleware.setCache(res.req.url, clientResponse);
     return res.status(this.status).json(clientResponse);
   }
