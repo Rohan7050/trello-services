@@ -1,11 +1,9 @@
-import { UpdateResult } from 'typeorm';
+import { Not, UpdateResult } from 'typeorm';
 import { CardEntity } from '../../../entities/cardEntity';
-import { ProjectEntity } from '../../../entities/projectEntity';
 import { TableEntity } from '../../../entities/tableEntity';
 import { pgConnection } from '../../data-source';
 import { CardCreateType } from './create/create.model';
 import { CardUpdateType } from './update/update.model';
-import { ApiError, BadRequestError } from '../../../core/ApiError';
 
 export class CardDB {
   private cardRepository = pgConnection.getRepository(CardEntity);
@@ -39,35 +37,44 @@ export class CardDB {
     }
   }
 
-  public async updateCardOrder(table: TableEntity, tableId: number, cardId: number, order: number): Promise<CardEntity | null> {
+  public async updateCardOrder(table: TableEntity, tableId: number, cardId: number, order: number): Promise<CardEntity[] | null> {
     await this.queryRunner.connect();
     await this.queryRunner.startTransaction();
     try {
-      // get all cards
-      const card = await this.queryRunner.manager.findOne(CardEntity, { where: {id: cardId} });
-      if(!card) {
-        throw new Error('Invalid card');
+      const card = await this.queryRunner.manager.findOne(CardEntity, { where: { id: cardId } });
+      if (!card) {
+        throw new Error('Invalid card infoemation');
       }
-      const cardList = await this.queryRunner.manager.find(CardEntity, { where: {table_id: tableId} });
-      console.log('prev card', cardList)
-      // update the order
-      const updatedcardList = cardList.map((card: CardEntity, idx: number) => {
-        console.log('..........', card.order , idx + 1, order <= idx + 1 ? card.order + 1 : idx + 1 )
-        card.order = order <= idx + 1 ? card.order + 1 : idx + 1;
-        return card;
-      });
-      // save the changes
-      console.log('Updated card', updatedcardList)
-      const savedCardList = await this.queryRunner.manager.save(updatedcardList);
-      card.order = order;
+      const oldTableId = card.table_id;
       card.table = table;
       card.table_id = tableId;
-      const myCard = await this.queryRunner.manager.save(card);
+      const cardList = await this.queryRunner.manager.find(CardEntity, { where: { table_id: tableId, id: Not(cardId) }, order: { order: 'ASC' } });
+      const validOrder = order > cardList.length ? cardList.length + 1 : order;
+      cardList.splice(validOrder - 1, 0, card);
+      const updatedcardList = cardList.map((card: CardEntity, idx: number) => {
+        card.order = idx + 1;
+        return card;
+      });
+      await this.queryRunner.manager.save(updatedcardList);
+      if (tableId !== oldTableId) {
+        const oldCardList = await this.queryRunner.manager.find(CardEntity, { where: { table_id: oldTableId, id: Not(cardId) }, order: { order: 'ASC' } });
+        const updatedOldCardList = oldCardList.map((card: CardEntity, idx: number) => {
+          card.order = idx + 1;
+          return card;
+        });
+        await this.queryRunner.manager.save(updatedOldCardList);
+      }
       await this.queryRunner.commitTransaction();
-      return myCard;
+      return cardList;
     } catch (err) {
-      console.log('error',err)
-      throw err;
+      await this.queryRunner.rollbackTransaction();
+      if (err instanceof Error) {
+        throw new Error(`Transaction failed: ${err.message}`);
+      } else {
+        throw new Error('Unknown error');
+      }
+    } finally {
+      await this.queryRunner.release();
     }
   }
 }

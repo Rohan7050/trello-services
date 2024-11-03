@@ -7,7 +7,6 @@ import { BaseController } from '../BaseController';
 import { loginModel } from '../../database/repository/user/login/login.model';
 import { registerModel } from '../../database/repository/user/register/register.model';
 import { ApiError, BadRequestError } from '../../core/ApiError';
-import { UserEntity } from '../../entities/userEntity';
 import { createjwt } from '../../utils/jwt/jwt';
 import { RegisterDto } from '../../database/repository/user/register/register.dto';
 import { LoginDto } from '../../database/repository/user/login/login.dto';

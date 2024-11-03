@@ -6,7 +6,6 @@ import { BadRequestResponseWithDetailMsg } from '../core/ApiResponse';
 
 function validationMiddleware<T>(type: any, skipMissingProperties = false): RequestHandler {
   return (req, res, next) => {
-    console.log('req.body from validator', req.body);
     validate(plainToClass(type, req.body), { skipMissingProperties }).then((errors: ValidationError[]) => {
       if (errors.length > 0) {
         let feilds = ''
@@ -17,7 +16,6 @@ function validationMiddleware<T>(type: any, skipMissingProperties = false): Requ
           };
         });
         let message = `please fill ${feilds}fields properly`
-        console.log(feilds)
         return new BadRequestResponseWithDetailMsg(message, detailMsg).send(res);
       } else {
         next();

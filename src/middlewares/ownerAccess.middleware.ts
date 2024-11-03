@@ -19,7 +19,6 @@ const ownerAccessMiddleware = async (req: express.Request, res: express.Response
     }
     next();
   } catch (err) {
-    console.log(4, err);
     return ApiError.handle(new BadTokenError(), res);
   }
 };

@@ -97,7 +97,7 @@ export class CardController extends BaseController implements Controller {
     if (!table) {
       return ApiError.handle(new BadRequestError('incorrect information.'), res);
     }
-    const updateCard = await this.cardDb.updateCardOrder(table, tableId, cardId, order)
-    new SuccessResponse('success', updateCard).send(res);
+    const updateCard = await this.cardDb.updateCardOrder(table, tableId, cardId, order);
+    new SuccessMsgResponse('success').send(res);
   });
 }

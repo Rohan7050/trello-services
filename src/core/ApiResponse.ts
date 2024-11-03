@@ -2,15 +2,15 @@ import { Response } from 'express';
 import { ENABLE_ENCRYPTION, ResponseStatus, StatusCode } from '../config';
 import { CacheMiddleware } from '../middlewares/cache.middleware';
 import { EncryptionAndDecryption } from './Encryption&Decryption';
-// import { Logger } from './Logger';
+import { Logger } from './Logger';
 
 abstract class ApiResponse {
   constructor(protected statusCode: StatusCode, protected status: ResponseStatus, protected message: string) {}
 
   protected prepare<T extends ApiResponse>(res: Response, response: T): Response {
     const clientResponse = ApiResponse.sanitize(response, res.req.url);
+    new Logger(res, res.req, this.statusCode, this.status, clientResponse);
     res.removeHeader('user_id');
-    // new Logger(res, res.req, this.statusCode, this.status, clientResponse);
     CacheMiddleware.setCache(res.req.url, clientResponse);
     return res.status(this.status).json(clientResponse);
   }

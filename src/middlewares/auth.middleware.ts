@@ -10,16 +10,13 @@ const authMiddleware = async (req: express.Request, res: express.Response, next:
       return ApiError.handle(new AuthFailureError("Unauthorized"), res)
     }
     const token = bearerToken.split(' ')[1];
-    console.log(token)
     if(!verifyjwt(token)) {
       return ApiError.handle(new AuthFailureError("Unauthorized"), res);
     }
     const decryptTocke = decodeJwt(token);
-    console.log('///////////', decryptTocke)
     res.setHeader('user_id', decryptTocke.payload.id);
     next();
   } catch (err) {
-    console.log(4, err);
     return ApiError.handle(new BadTokenError(), res);
   }
 };

@@ -19,6 +19,15 @@ export class ProjectDB {
           projectid: projectId,
           userid: userId,
         },
+        order: {
+          project: {
+            tables: {
+              cards: {
+                order: 'ASC'
+              }
+            }
+          }
+        },
         relations: ['project', 'user', 'access', 'project.tables', 'project.tables.cards'],
       });
       return project;

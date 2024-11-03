@@ -7,7 +7,7 @@ config({
   path: `${parentDir}\\.env.${env}`
 });
 
-export const ENABLE_ENCRYPTION: boolean = false;
+export const ENABLE_ENCRYPTION: boolean = true;
 export const REDIS_PORT = 6379;
 export const REDIS_KEY_EXPIRY_TIME = 3600 * 24 * 7; // 7 days
 export const PATH = '/api';

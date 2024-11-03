@@ -46,8 +46,7 @@ export class Database {
   executePGQuery(query: string) {
     return new Promise((resolve, reject) => {
       const client = new Client(this.postgresConfig);
-      client.connect();
-      console.log(this.postgresConfig,"postgress config")
+      client.connect()
       client.query(query, (err: any, res: any) => {
         client.end();
         console.log('connection start ');

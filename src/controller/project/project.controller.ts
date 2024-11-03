@@ -42,7 +42,6 @@ export class ProjectController extends BaseController implements Controller {
 
   private createProject = this.catchAsyn(async (req: express.Request, res: express.Response, _next: express.NextFunction) => {
     const userId = Number(res.getHeader('user_id'));
-    console.log(`Creating project`, userId);
     const body = sanitizeBody(projectCreateModel, req.body);
 
     const user = await this.userdb.findUserById(userId);
@@ -59,6 +58,7 @@ export class ProjectController extends BaseController implements Controller {
 
   private getProjectInfo = this.catchAsyn(async (req: express.Request, res: express.Response, _next: express.NextFunction) => {
     const userId = Number(res.getHeader('user_id'));
+    console.log(userId)
     const { projectId } = sanitizeBody(projectGetAllModel, req.body);
     const projectList = await this.projectdb.getProject(projectId, userId);
     if (!projectList) {
@@ -99,7 +99,6 @@ export class ProjectController extends BaseController implements Controller {
   private deleteProject = this.catchAsyn(async (req: express.Request, res: express.Response, _next: express.NextFunction) => {
     const userId = Number(res.getHeader('user_id'));
     const {projectId} = sanitizeBody(projectDeleteModel, req.body);
-    console.log(projectId)
     const getProject = this.projectUserRelDb.getProjectUser(userId, projectId, 1);
     if (!getProject) {
       return ApiError.handle(new BadRequestError("You don't have permission to delete this project"), res);

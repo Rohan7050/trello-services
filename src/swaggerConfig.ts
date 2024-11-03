@@ -16,7 +16,5 @@ const options: swaggerJsdoc.Options = {
   apis: ['./src/controller/dummy/dummy.docs.ts', './src/controller/user/user.docs.ts', './src/controller/project/project.yaml', './src/swagger/*.yaml'],
 };
 
-console.log(parentDir);
-
 const swaggerSpec = swaggerJsdoc(options);
 export default swaggerSpec;

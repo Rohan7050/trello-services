@@ -3,7 +3,6 @@ import { TableEntity } from './tableEntity';
 import { CommonEntity } from './commonEntity';
 
 @Entity('cards')
-@Unique(['table_id', 'order'])
 export class CardEntity extends CommonEntity {
   @Column({
     type: 'integer',

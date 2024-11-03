@@ -76,7 +76,6 @@ class App {
 
 
     this.app.use((req, res, next) => {
-      console.log(req.params);
       if (ENABLE_ENCRYPTION === true && !NON_ENCRYPTION_ENDPOINTS.includes(req.url) && !req.headers['content-type']?.includes('multipart/form-data')) {
         if (req.method === 'POST') {
           const result = EncryptionAndDecryption.decryption(req.body.data);
