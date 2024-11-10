@@ -23,6 +23,7 @@ jobs:
           name: dist
           path: dist
   upload-build:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Get build Artifact
