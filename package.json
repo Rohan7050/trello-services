@@ -16,6 +16,7 @@
   "license": "ISC",
   "main": "server.js",
   "dependencies": {
+    "@types/axios": "^0.9.36",
     "aws-sdk": "^2.1373.0",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.2.3",
