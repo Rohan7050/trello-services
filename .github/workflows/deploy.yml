@@ -44,7 +44,7 @@ jobs:
           AWS_REGION: ${{ env.AWS_REGION }}
         run: |
           ls
-          aws s3 cp dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/dist --recursive
+          aws s3 cp dist.zip s3://${{ secrets.AWS_S3_BUCKET_NAME }}/dist --recursive
       - name: Upload Artifact
         run: echo "Upload Artifact to ${{secrets.AWS_S3_BUCKET_NAME}}"
 
