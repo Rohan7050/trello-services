@@ -33,4 +33,37 @@ export class ProjectUserRelDB {
       throw err;
     }
   }
+
+  public async userHaveAccess(userId: number, projectId: number): Promise<boolean> {
+    try {
+      const data = await this.userProjectRelRepository.findOneBy({ userid: userId, projectid: projectId });
+      return !data ? false : true;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  public async getAllProjectContributors(projectId: number): Promise<UserProjectRelEntity[]> {
+    try {
+      const data = await this.userProjectRelRepository.find({
+        where: { projectid: projectId }, 
+        relations: ['user', 'access'], 
+        select: {
+          user: {
+            id: true,
+            username: true,
+            useremail: true,
+          },
+          access: {
+            id: true,
+            type: true,
+          }
+        },
+
+      });
+      return data;
+    } catch (err) {
+      throw err;
+    }
+  }
 }

@@ -7,6 +7,7 @@ import { ProjectController } from './controller/project/project.controller';
 import { TableController } from './controller/table/table.controller';
 import { CardController } from './controller/card/card.controller';
 import { SecurityController } from './controller/security/security.controller';
+import { AccessController } from './controller/access/access.controller';
 const parentDir = path.resolve(__dirname, '..');
 
 const env = process.env.NODE_ENV || 'development';
@@ -21,7 +22,8 @@ export const app = new App(
     new UserController(),
     new ProjectController(),
     new TableController(),
-    new CardController()
+    new CardController(),
+    new AccessController()
   ],
   process.env.PORT || 3000
 );
